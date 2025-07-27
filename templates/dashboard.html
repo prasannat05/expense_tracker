@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Dashboard</h2>
+<p><strong>Income:</strong> ₹{{ summary.income }}</p>
+<p><strong>Expenses:</strong> ₹{{ summary.expense }}</p>
+<p><strong>Savings:</strong> ₹{{ summary.savings }}</p>
+<a href="/add" class="btn btn-info mb-3">Add Transaction</a>
+<a href="/logout" class="btn btn-danger mb-3">Logout</a>
+
+<canvas id="expenseChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const chart = new Chart(document.getElementById('expenseChart'), {
+    type: 'pie',
+    data: {
+        labels: {{ chart_data | map(attribute=0) | list | tojson }},
+        datasets: [{
+            data: {{ chart_data | map(attribute=1) | list | tojson }},
+            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545']
+        }]
+    }
+});
+</script>
+
+{% endblock %}
